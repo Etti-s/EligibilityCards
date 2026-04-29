@@ -1,0 +1,19 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+backend/src/**/logs/
+
+# Node
+node_modules/
+dist/
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
