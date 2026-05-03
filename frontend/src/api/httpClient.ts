@@ -41,11 +41,16 @@ function buildUrl(endpoint: string, query?: RequestOptions['query']): string {
 async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
   const { body, query, headers, skipAuth, ...rest } = options;
 
+  const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
+
   const finalHeaders: Record<string, string> = {
-    'Content-Type': 'application/json',
     Accept: 'application/json',
     ...((headers as Record<string, string>) || {}),
   };
+
+  if (!isFormData && body !== undefined) {
+    finalHeaders['Content-Type'] = 'application/json';
+  }
 
   if (!skipAuth) {
     const token = tokenStorage.get();
@@ -60,7 +65,7 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
   };
 
   if (body !== undefined) {
-    init.body = JSON.stringify(body);
+    init.body = isFormData ? (body as FormData) : JSON.stringify(body);
   }
 
   const url = buildUrl(endpoint, query);
@@ -102,12 +107,44 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
         apiResponse.message || 'הבקשה נכשלה',
         response.status,
         apiResponse.errors ?? undefined,
+        apiResponse.data ?? undefined,
       );
     }
     return apiResponse.data as T;
   }
 
   return payload as T;
+}
+
+export async function downloadFile(
+  endpoint: string,
+  filename: string,
+  query?: RequestOptions['query'],
+): Promise<void> {
+  const url = buildUrl(endpoint, query);
+  const headers: Record<string, string> = { Accept: '*/*' };
+  const token = tokenStorage.get();
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const response = await fetch(url, { method: 'GET', headers });
+  if (response.status === 401) {
+    tokenStorage.clear();
+    if (unauthorizedHandler) unauthorizedHandler();
+    throw new ApiError('חובה להתחבר למערכת', 401);
+  }
+  if (!response.ok) {
+    throw new ApiError(`הורדת הקובץ נכשלה (${response.status})`, response.status);
+  }
+
+  const blob = await response.blob();
+  const objectUrl = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = objectUrl;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(objectUrl);
 }
 
 export const httpClient = {

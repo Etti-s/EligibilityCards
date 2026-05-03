@@ -119,7 +119,7 @@ export function UsersPage() {
         )}
       </div>
 
-      <Card>
+      <Card className={styles.tableCard}>
         {loadError ? (
           <div className={styles.errorMessage}>{loadError}</div>
         ) : isLoading ? (
