@@ -204,7 +204,6 @@ export function UserFormModal({ isOpen, mode, initial, onClose, onSubmit }: User
               id="email"
               name="email"
               type="email"
-              dir="ltr"
               className={`${styles.formInput} ${fieldErrors.email ? styles.formInputError : ''}`}
               value={formData.email}
               onChange={handleChange}
@@ -230,7 +229,6 @@ export function UserFormModal({ isOpen, mode, initial, onClose, onSubmit }: User
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={isSubmitting}
-              style={{ width: '170px' }}
             />
             {fieldErrors.phone && (
               <span className={styles.formFieldError}>{fieldErrors.phone}</span>
@@ -254,7 +252,6 @@ export function UserFormModal({ isOpen, mode, initial, onClose, onSubmit }: User
                 onChange={handleChange}
                 onBlur={handleBlur}
                 disabled={isSubmitting}
-                style={{ width: '220px' }}
               />
               {fieldErrors.password && (
                 <span className={styles.formFieldError}>{fieldErrors.password}</span>
@@ -273,7 +270,6 @@ export function UserFormModal({ isOpen, mode, initial, onClose, onSubmit }: User
               value={formData.role}
               onChange={handleChange}
               disabled={isSubmitting || allowedRoles.length === 1}
-              style={{ width: '180px' }}
             >
               {allowedRoles.map((roleValue) => (
                 <option key={roleValue} value={roleValue}>

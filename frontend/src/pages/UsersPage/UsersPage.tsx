@@ -129,6 +129,15 @@ export function UsersPage() {
         ) : (
           <div className={styles.tableWrapper}>
             <table className={styles.table}>
+              <colgroup>
+                <col className={styles.colName} />
+                <col className={styles.colEmail} />
+                <col className={styles.colPhone} />
+                <col className={styles.colRole} />
+                <col className={styles.colDate} />
+                <col className={styles.colStatus} />
+                <col className={styles.colActions} />
+              </colgroup>
               <thead>
                 <tr>
                   <th>שם מלא</th>
@@ -149,15 +158,17 @@ export function UsersPage() {
                         {u.fullName}
                         {isSelf && <span className={styles.selfBadge}>אני</span>}
                       </td>
-                      <td className={styles.cellEmail} dir="ltr">{u.email}</td>
-                      <td className={styles.cellPhone} dir="ltr">{u.phone || '—'}</td>
-                      <td>
+                      <td className={styles.cellEmail}>{u.email}</td>
+                      <td className={styles.cellPhone}>
+                        {u.phone ? <span dir="ltr">{u.phone}</span> : '—'}
+                      </td>
+                      <td className={styles.cellRole}>
                         <span className={`${styles.roleBadge} ${styles[`role${u.role}`]}`}>
                           {UserRoleLabels[u.role]}
                         </span>
                       </td>
                       <td className={styles.cellDate}>{formatDate(u.createdAt)}</td>
-                      <td>
+                      <td className={styles.cellStatus}>
                         <span
                           className={`${styles.statusBadge} ${
                             u.isActive ? styles.statusActive : styles.statusBlocked
@@ -166,7 +177,7 @@ export function UsersPage() {
                           {u.isActive ? 'פעיל' : 'חסום'}
                         </span>
                       </td>
-                      <td>
+                      <td className={styles.cellActions}>
                         <div className={styles.actions}>
                           {u.canEdit && (
                             <button

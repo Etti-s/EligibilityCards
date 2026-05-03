@@ -107,7 +107,6 @@ export function LoginPage() {
               name="email"
               type="email"
               autoComplete="username"
-              dir="ltr"
               className={`${styles.input} ${fieldErrors.email ? styles.inputError : ''}`}
               value={formData.email}
               onChange={handleChange}
@@ -127,7 +126,6 @@ export function LoginPage() {
                 name="password"
                 type={showPassword ? 'text' : 'password'}
                 autoComplete="current-password"
-                dir="ltr"
                 className={`${styles.input} ${styles.passwordInput} ${fieldErrors.password ? styles.inputError : ''}`}
                 value={formData.password}
                 onChange={handleChange}

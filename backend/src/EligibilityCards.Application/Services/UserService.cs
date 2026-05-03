@@ -133,6 +133,7 @@ public class UserService : IUserService
     public async Task ResetPasswordAsync(int id, ResetPasswordDto dto, CancellationToken cancellationToken = default)
     {
         var actorRole = RequireRole();
+        var actorId = RequireUserId();
 
         if (string.IsNullOrWhiteSpace(dto.NewPassword))
         {
@@ -142,7 +143,7 @@ public class UserService : IUserService
         var user = await _userRepository.GetByIdAsync(id, cancellationToken)
             ?? throw new NotFoundException("המשתמש לא נמצא");
 
-        if (!UserPermissions.CanResetPassword(actorRole, user))
+        if (!UserPermissions.CanResetPassword(actorRole, actorId, user))
         {
             throw new ForbiddenException("אין הרשאה לאיפוס סיסמת משתמש זה");
         }
@@ -211,7 +212,7 @@ public class UserService : IUserService
             IsActive = user.IsActive,
             CanEdit = UserPermissions.CanEdit(actorRole, actorId, user),
             CanToggleStatus = UserPermissions.CanToggleStatus(actorRole, actorId, user),
-            CanResetPassword = UserPermissions.CanResetPassword(actorRole, user)
+            CanResetPassword = UserPermissions.CanResetPassword(actorRole, actorId, user)
         };
     }
 }

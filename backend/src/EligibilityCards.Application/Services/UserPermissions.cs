@@ -50,7 +50,7 @@ public static class UserPermissions
         return false;
     }
 
-    public static bool CanResetPassword(UserRole actorRole, User target)
+    public static bool CanResetPassword(UserRole actorRole, int actorId, User target)
     {
         if (actorRole == UserRole.Admin)
         {
@@ -59,7 +59,7 @@ public static class UserPermissions
 
         if (actorRole == UserRole.BranchManager)
         {
-            return target.Role == UserRole.Clerk;
+            return target.Id == actorId || target.Role == UserRole.Clerk;
         }
 
         return false;

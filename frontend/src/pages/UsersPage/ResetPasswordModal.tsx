@@ -89,7 +89,6 @@ export function ResetPasswordModal({ isOpen, user, onClose, onSubmit }: ResetPas
             onChange={handleChange}
             disabled={isSubmitting}
             autoFocus
-            style={{ width: '240px' }}
           />
           {error && <span className={styles.formFieldError}>{error}</span>}
         </div>
