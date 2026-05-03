@@ -35,7 +35,7 @@ export function AppLayout({ children }: AppLayoutProps) {
 
   const showUsersLink = user?.role === UserRole.Admin || user?.role === UserRole.BranchManager;
   const showEligiblesLink = user?.role === UserRole.Admin || user?.role === UserRole.BranchManager;
-  const showEligibilityCheckLink = user?.role === UserRole.Clerk;
+  const showEligibilityCheckLink = isAuthenticated;
 
   return (
     <div className={styles.layout}>

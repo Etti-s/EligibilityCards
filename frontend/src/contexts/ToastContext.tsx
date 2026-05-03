@@ -8,7 +8,7 @@ import {
 } from 'react';
 import styles from './ToastContext.module.css';
 
-type ToastType = 'success' | 'error' | 'info';
+type ToastType = 'success' | 'error' | 'info' | 'warning';
 
 interface ToastItem {
   id: number;
@@ -20,6 +20,7 @@ interface ToastContextValue {
   showSuccess: (message: string) => void;
   showError: (message: string) => void;
   showInfo: (message: string) => void;
+  showWarning: (message: string) => void;
 }
 
 const ToastContext = createContext<ToastContextValue | null>(null);
@@ -45,6 +46,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       showSuccess: (m) => add('success', m),
       showError: (m) => add('error', m),
       showInfo: (m) => add('info', m),
+      showWarning: (m) => add('warning', m),
     }),
     [add],
   );

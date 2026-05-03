@@ -41,7 +41,7 @@ function AppRoutes() {
         <Route
           path="/eligibility-check"
           element={
-            <ProtectedRoute allowedRoles={[UserRole.Clerk]}>
+            <ProtectedRoute>
               <EligibilityCheckPage />
             </ProtectedRoute>
           }
