@@ -19,6 +19,7 @@ public class AppDbContext : DbContext, IAppDbContext
     }
 
     public DbSet<User> Users => Set<User>();
+    public DbSet<Eligible> Eligibles => Set<Eligible>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
